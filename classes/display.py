@@ -139,6 +139,17 @@ class Display:
         temperature = weather.main()
         
         # stack the time, date and temerature ontop of eachother and center them on the screen
+        time_w, time_h = self.SS_TIME_FONT.getsize(current_time)
+        time_x = (self.inky_display.HEIGHT / 2) - time_h
+        time_y = (self.inky_display.WIDTH - 5) - time_w
+        
+        date_w, date_h = self.SS_DATE_FONT.getsize(current_date)
+        date_x = (self.inky_display.HEIGHT / 2)
+        date_y = (self.inky_display.WIDTH - 5) - date_w
+        
+        temp_w, temp_h = self.SS_TEMP_FONT.getsize(temperature)
+        temp_x = (self.inky_display.HEIGHT / 2) + temp_h
+        temp_y = (self.inky_display.WIDTH - 5) - temp_w
         
         # Draw
         self.draw.text((time_x, time_y), current_time, self.inky_display.BLACK, font=self.SS_TIME_FONT)
