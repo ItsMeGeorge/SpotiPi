@@ -33,7 +33,7 @@ The SpotiPi project utilises a Raspberry Pi Zero W and an ePaper display to visu
 
 ```bash
 git clone https://github.com/ItsMeGeorge/SpotiPi.git
-cd yourproject
+cd SpotiPi
 ```
 
 2. **Set up the environment**
@@ -54,17 +54,37 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. **Run the main script**
+1. **Run the Main Script**
 
-```bash
-python3 main.py
-```
+   To start the program, use the following command:
 
-2. **Example of usage**
+   ```bash
+   python3 main.py
+   ```
 
-    Once the program has been ran the display will clean itself and display the splash-screen image while it is starting-up. Once it has initialised it will make an API call to the Spotify API to retrieve the song the user is currently listening to, to display it on the inky ePaper display.
+### Optional Flags
 
-	 If the program detects that the printer is printing something (using the OctoPrint API) then the progress of the print will be displayed at the bottom of the screen in the form of a small progress bar.
+1. **Debug Mode**
+
+   To run the program in debug mode, which provides more verbose output by printing debug statements to the console, use:
+
+   ```bash
+   python3 main.py -d
+   ```
+
+2. **Headless Mode**
+
+   To run the program without outputting to the display, allowing it to run locally without a display, use:
+
+   ```bash
+   python3 main.py -headless
+   ```
+
+2. **Example of Usage**
+
+   When the program starts, the display will clear itself and show the splash-screen image while initializing. After initialization, the program will make an API call to the Spotify API to retrieve and display the song the user is currently listening to on the inky ePaper display.
+
+   Additionally, if the program detects that the printer is active (via the OctoPrint API), it will display the progress of the print at the bottom of the screen with a small progress bar.
 
 ## Features
 
