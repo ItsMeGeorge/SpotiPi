@@ -526,20 +526,13 @@ class ProgramLogic:
 
                     else:
                         # Active session check
-                        # Show users top artists and top songs
                         self.program_values.output.debug("Spotify not playing", f"spotipy loop")
-                        self.program_values.output.out("Showing top Artists and Songs", f"Spotipy Loop", "info")
+                        self.program_values.output.out("Showing screen-saver", f"Spotipy Loop", "info")
 
                         # If nothing has been played for 30 mins active session will be set to False
                         if ((datetime.datetime.now() - self.program_values.get_last_active()) >= datetime.timedelta(minutes=30)):
                             self.program_values.output.out("Inactive for too long!", "Spotify Loop")
                             self.program_values.set_active_session(False)
-
-                        else:
-                        # Get and update top artists
-                            # This should only need to be done once so could be done on start-up?
-                        # Send them to the display
-                            self.program_values.set_current_top_artist(self.program_values.spotipy_values.get_top_artists()[self.program_values.get_top_artist_pointer()])
 
                         # Sets the wait_time equal to the max wait time if no song is playing.
                         wait_time = self.program_values.refresh_timer.get_max_wait()
@@ -604,25 +597,18 @@ class ProgramLogic:
                         values_changed = False
                 else:
                     if (self.program_values.refresh_timer.get_seconds_waited() >= (self.program_values.refresh_timer.get_max_wait() / 2)):
-                        self.program_values.output.out(f"Displaying top artist: {self.program_values.get_top_artist_pointer() + 1}. {self.program_values.get_current_top_artist()}", "Main Loop")
+                        self.program_values.output.out(f"Displaying Screen-Saver", "Main Loop")
                         
                         if (not self.program_values.HEADLESS):
+                            # TODO: Call screen-saver function here.
+                            
                             self.program_values.display.update_display_topArtist(self.program_values.get_top_artist_pointer() + 1,
                                                                                 self.program_values.get_current_top_artist(),
                                                                                 self.program_values.octo_print_values.get_isPrinting(),
                                                                                 self.program_values.octo_print_values.get_progress()
                                                                                 )
                         
-                        # Increment the top_artist_pointer
-                        if (self.program_values.get_top_artist_pointer() + 1 > (len(self.program_values.spotipy_values.get_top_artists()) - 1)):
-                            print("pointer reset")
-                            self.program_values.set_top_artist_pointer(0)
-                        else:
-                            print("pointer increment")
-                            self.program_values.set_top_artist_pointer(self.program_values.get_top_artist_pointer() + 1)
-        
                         self.program_values.refresh_timer.reset_seconds_waited()
-                    pass
 
             time.sleep(1)
 

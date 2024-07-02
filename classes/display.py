@@ -39,7 +39,9 @@ class Display:
         self.ARTIST_FONT = ImageFont.truetype(HankenGroteskMedium, 18)
         self.EXPLICIT_FONT = ImageFont.truetype(HankenGroteskBold, 25)
         
-        self.TOP_ARTIST_FONT = ImageFont.truetype(HankenGroteskBold, 30)
+        self.SS_TIME_FONT = ImageFont.truetype(Intuitive, 20)
+        self.SS_DATE_FONT = ImageFont.truetype(Intuitive, 20)
+        self.SS_TEMP_FONT = ImageFont.truetype(Intuitive, 20)
         
         # Clean the display and show the splash screen once the class is initialised
         self.output.out("Cleaning display and showing splash-screen", f"{__class__.__name__}")
@@ -99,30 +101,6 @@ class Display:
         self.inky_display.set_image(self.img)
         self.inky_display.show()
 
-    def update_display_topArtist(self, artist_position, artist_name, isPrinting, print_progress):
-        """
-        Displays the current top artist to the screen.
-
-        Args:
-            artist_position (int): _description_
-            artist_name (String): _description_
-            isPrinting (Boolean): _description_
-            print_progress (int): _description_
-        """
-        
-        date_w, date_h, time_w, time_h, date_x, time_x = self.draw_date_time()
-        
-        artist_name_y = time_h + 20
-        
-        self.draw.text((5, artist_name_y), (f"{artist_position}. {artist_name}"), self.inky_display.BLACK, font=self.TOP_ARTIST_FONT)
-        
-        # If OctoPrint is running draw its progress
-        if (isPrinting):
-            self.create_progressBar(print_progress, self.inky_display.HEIGHT - 20)
-
-        self.inky_display.set_image(self.img)
-        self.inky_display.show()
-
     # Display Getters and setters
     # --- FONT --- #
     def get_SONG_FONT(self):
@@ -153,25 +131,23 @@ class Display:
 
 
     # --- Display Functions --- #
-    def correct_x(self, given_x, position="position"):
-        if given_x < self.inky_display.WIDTH:
-            given_x = 5
-        elif given_x > self.inky_display.WIDTH:
-            given_x = 245
-
-        if position == "centre":
-            given_x = 250 / 2
-
-        return given_x
-
-    def correct_y(self, given_y):
-        if given_y < self.inky_display.HEIGHT:
-            return 5
-        elif given_y > self.inky_display.HEIGHT:
-            return 245
-        else:
-            return given_y
-
+    def create_screen_saver(self):
+        from classes import weather
+        
+        # Get the values for the screen-saver
+        current_date, current_time = self.get_date_time("long")
+        temperature = weather.main()
+        
+        # stack the time, date and temerature ontop of eachother and center them on the screen
+        
+        # Draw
+        self.draw.text((time_x, time_y), current_time, self.inky_display.BLACK, font=self.SS_TIME_FONT)
+        self.draw.text((date_x, date_y), current_date, self.inky_display.BLACK, font=self.SS_DATE_FONT)
+        self.draw.text((temp_x, temp_y), temperature, self.inky_display.RED, font=self.SS_TEMP_FONT)
+        
+        self.inky_display.set_image(self.img)
+        self.inky_display.show()
+    
     def get_layout_colour(self, area):
         mode = "light"
 
@@ -296,8 +272,11 @@ class Display:
                 progressBar_img.putpixel(((n+x_padding+1) + 5, self.inky_display.HEIGHT - 6), self.get_layout_colour("border"))
                 progressBar_img.putpixel(((n+x_padding+1) + 5, self.inky_display.HEIGHT - 7), self.get_layout_colour("border"))
 
-    def get_date_time(self):
-        return datetime.datetime.now().strftime("%d/%m"), datetime.datetime.now().strftime("%I:%M")
+    def get_date_time(self, format):
+        if (format == "short"):
+            return datetime.datetime.now().strftime("%d/%m"), datetime.datetime.now().strftime("%I:%M")
+        elif (format == "long"):
+            return datetime.datetime.now().strftime("%d/%m/Y"), datetime.datetime.now().strftime("%I:%M")
 
     def draw_date_time(self):
         """
@@ -320,7 +299,7 @@ class Display:
         
         # Draw the date and time
         # Gets the W/H of date and time and sets their positions
-        date, local_time = self.get_date_time()
+        date, local_time = self.get_date_time("short")
         
         date_w, date_h = self.HANKEN_BOLD_FONT.getsize(date)
         time_w, time_h = self.HANKEN_BOLD_FONT.getsize(local_time)
