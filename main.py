@@ -366,7 +366,6 @@ class ProgramLogic:
         self.program_values.output.debug(f"Song shortened to: {formatted_string}", "Shorten String")
         return formatted_string
 
-
     def format_song_details(self):
         """
         This function will format the song details ready to be displayed.
@@ -600,13 +599,7 @@ class ProgramLogic:
                         self.program_values.output.out(f"Displaying Screen-Saver", "Main Loop")
                         
                         if (not self.program_values.HEADLESS):
-                            # TODO: Call screen-saver function here.
-                            
-                            self.program_values.display.update_display_topArtist(self.program_values.get_top_artist_pointer() + 1,
-                                                                                self.program_values.get_current_top_artist(),
-                                                                                self.program_values.octo_print_values.get_isPrinting(),
-                                                                                self.program_values.octo_print_values.get_progress()
-                                                                                )
+                            self.program_values.display.create_screen_saver()
                         
                         self.program_values.refresh_timer.reset_seconds_waited()
 
