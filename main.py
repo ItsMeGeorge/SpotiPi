@@ -455,10 +455,13 @@ class ProgramLogic:
                 # While seconds waited > min_wait time
                 while(self.program_values.refresh_timer.get_seconds_waited() > self.program_values.refresh_timer.get_min_wait()):
                     self.program_values.watchdog.check_in("Spotipy_Loop")
+                    print("Spotipy checking in with watchdog")
                     self.program_values.output.debug("Spotify Checking values", f"Spotipy Loop")
 
                     spotify_data = self.program_values.spotipy_api.get_currently_playing()
                     self.program_values.spotipy_values.set_spotify_status(spotify_data[0])
+                    
+                    print(spotify_data)
 
                     self.program_values.output.debug(f"Spotify Status: {spotify_data[0]}", "Spotify Loop")
 

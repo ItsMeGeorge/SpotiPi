@@ -156,9 +156,6 @@ class SpotipyAPI:
             for i in spotify_data['item']['artists']:
                 artist_name += i['name'] + ", "
 
-            # Moved in-line with the return
-            #artist_name = artist_name[:len(artist_name) - 2]
-
             return status, spotify_data['item']['id'], song_name, artist_name[:len(artist_name) - 2], spotify_data['item']['explicit'], spotify_data['progress_ms'], spotify_data['item']['duration_ms']
 
         else:
