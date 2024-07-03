@@ -461,7 +461,7 @@ class ProgramLogic:
                     spotify_data = self.program_values.spotipy_api.get_currently_playing()
                     self.program_values.spotipy_values.set_spotify_status(spotify_data[0])
                     
-                    print(spotify_data)
+                    print(f"Spotify data:\n{spotify_data}")
 
                     self.program_values.output.debug(f"Spotify Status: {spotify_data[0]}", "Spotify Loop")
 
@@ -555,7 +555,10 @@ class ProgramLogic:
                     print("Values updated")
 
                     # Marks that the values have been changed
-                    values_changed = True   
+                    values_changed = True
+                else:
+                    print("Same song")
+                    
 
                 # If the values have been changed or the seconds waited is greater than max wait time then refresh the screen
                 if (self.program_values.spotipy_values.get_spotify_status() != "stopped"):
