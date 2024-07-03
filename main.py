@@ -541,19 +541,23 @@ class ProgramLogic:
 
             # is_refresh_ready() returns true if seconds waited is greater than 15
             if (self.program_values.refresh_timer.is_refresh_ready()):
+                print("Ready")
                 # Set value_changed to false ready for the next loop
                 values_changed = False
 
                 # If the current song_id in Program_Values is not the same as the current id Spotipy_Values
                 if (self.program_values.get_song_id() != self.program_values.spotipy_values.get_song_id()):
+                    print("New song")
                     #updated valuess
                     self.program_values.update_spotify_values()
+                    print("Values updated")
 
                     # Marks that the values have been changed
                     values_changed = True   
 
                 # If the values have been changed or the seconds waited is greater than max wait time then refresh the screen
                 if (self.program_values.spotipy_values.get_spotify_status() != "stopped"):
+                    print("Playing")
                     if ((values_changed or 
                         self.program_values.refresh_timer.get_seconds_waited() >= self.program_values.refresh_timer.get_max_wait()) and 
                         self.program_values.spotipy_values.get_song_progress() < (self.program_values.spotipy_values.get_song_duration() - 30)):
@@ -588,6 +592,8 @@ class ProgramLogic:
                             self.program_values.display.create_screen_saver()
                         
                         self.program_values.refresh_timer.reset_seconds_waited()
+            else:
+                print("Not ready")
 
             time.sleep(1)
 
