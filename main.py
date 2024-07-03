@@ -597,7 +597,6 @@ try:
         # Checks the connection to octoprint
         max_retries = 0
         while True:
-            print("Inside while")
             if (max_retries < 5):
                 if (not program_logic.connection_check()):
                     program_logic.program_values.output.out(f"Unable to connect to endpoint, retrying in 5s...", "connCheck")
@@ -611,16 +610,16 @@ try:
             else:
                 raise TimeoutError("Unable to connect to endpoint and reached max retries")
 
-        print("Out of While")
-
         # Clean the terminal and display SpotiPi text
         os.system('cls' if os.name == 'nt' else 'clear')
         program_logic.program_values.output.startup(version=program_logic.program_values.VERSION)
 
         # Start the threads
+        print("Starting threads")
         program_logic.start_threads()
 
         # Start the program
+        print("Entering the main loop")
         program_logic.main_loop()
 
 except KeyboardInterrupt:
