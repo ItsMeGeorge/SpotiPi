@@ -449,7 +449,6 @@ class ProgramLogic:
         """
         
         self.program_values.output.debug("Beginning SpotiPy Loop", f"{__class__.__name__}")
-        self.program_values.spotipy_values.get_top_artists()
 
         while(True):
             try:
@@ -558,6 +557,7 @@ class ProgramLogic:
                 # If the values have been changed or the seconds waited is greater than max wait time then refresh the screen
                 if (self.program_values.spotipy_values.get_spotify_status() != "stopped"):
                     print("Playing")
+                    print(self.program_values.spotipy_values.get_song_duration())
                     if ((values_changed or 
                         self.program_values.refresh_timer.get_seconds_waited() >= self.program_values.refresh_timer.get_max_wait()) and 
                         self.program_values.spotipy_values.get_song_progress() < (self.program_values.spotipy_values.get_song_duration() - 30)):
