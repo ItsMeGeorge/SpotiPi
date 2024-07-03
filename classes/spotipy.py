@@ -96,7 +96,7 @@ class SpotipyAPI:
 
     def __init__(self):
         # Loads the enviroment variables
-        load_dotenv(dotenv_path="~/SpotiPi")
+        load_dotenv(dotenv_path="~/SpotiPi/.env")
 
         self.client_id = os.getenv("CLIENT_ID")
         self.client_secret = os.getenv("CLIENT_SECRET")
