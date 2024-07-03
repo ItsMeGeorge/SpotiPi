@@ -536,6 +536,7 @@ class ProgramLogic:
         
         # Enter loop here to begin running the display
         while(self.program_values.get_active_session() and not self.program_values.watchdog.exit_flag.is_set()):
+            print("Start of main loop")
             self.program_values.watchdog.check_in("ProgramLogic")
 
             # is_refresh_ready() returns true if seconds waited is greater than 15
@@ -579,6 +580,7 @@ class ProgramLogic:
                         self.program_values.refresh_timer.reset_seconds_waited()
                         values_changed = False
                 else:
+                    print("Spotify not playing")
                     if (self.program_values.refresh_timer.get_seconds_waited() >= (self.program_values.refresh_timer.get_max_wait() / 2)):
                         self.program_values.output.out(f"Displaying Screen-Saver", "Main Loop")
                         
