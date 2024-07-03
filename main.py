@@ -13,7 +13,7 @@ from classes import refresh_timer, octoprint, spotipy, watchdog, output
 
 class ProgramValues:
     def __init__(self):
-        self.VERSION = 1.0
+        self.VERSION = 1.1
         
         # Headless flag
         self.HEADLESS = False
@@ -573,7 +573,7 @@ class ProgramLogic:
                         self.program_values.refresh_timer.get_seconds_waited() >= self.program_values.refresh_timer.get_max_wait()) and 
                         self.program_values.spotipy_values.get_song_progress() < (self.program_values.spotipy_values.get_song_duration() - 30)):
 
-                        self.program_values.output.out("Updating the screen", f"Main Loop")
+                        self.program_values.output.out("Updating the screen", "Main Loop")
 
                         # --- Spotify Code --- #
                         # Formatted song and artist name ready to be displayed
@@ -584,7 +584,7 @@ class ProgramLogic:
                         
                         # --- Update Display --- #
                         if (not self.program_values.HEADLESS):
-                            self.program_values.display.update_display_withSong(self.program_values.get_song_name(),
+                            self.program_values.display.update_display(self.program_values.get_song_name(),
                                                                                 self.program_values.get_song_artist(),
                                                                                 self.program_values.get_explicit_song(),
                                                                                 self.program_values.octo_print_values.get_isPrinting(),

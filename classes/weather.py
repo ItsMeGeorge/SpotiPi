@@ -26,7 +26,7 @@ def get_weather_data(url, params, retries=5, backoff_factor=0.2):
             else:
                 return {"error": str(e)}
 
-def main():
+def get_temperature():
     location = get_location()
     if "error" in location:
         print(location["error"])
@@ -57,14 +57,8 @@ def main():
     # Process the response
     hourly = data.get("hourly", {})
 
-    print(f"Coordinates {latitude}°N {longitude}°E")
-
-    # Process hourly data
-    time_values = hourly.get("time", [])
+    # Temperature data
     temperature_2m_values = hourly.get("temperature_2m", [])
 
-    if time_values and temperature_2m_values:
+    if temperature_2m_values:
         return f"{temperature_2m_values[0]}°C"
-
-if __name__ == "__main__":
-    main()

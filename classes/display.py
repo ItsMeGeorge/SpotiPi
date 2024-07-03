@@ -28,7 +28,7 @@ class Display:
         self.draw = ImageDraw.Draw(self.img)
         
         # Path to splash screen image
-        self.splash_screen_path = "/home/georgepearson/Display/images/spotipi-logo.png"
+        self.splash_screen_path = "images/spotipi-logo.png"
 
         # Fonts
         self.INTUITIVE_FONT = ImageFont.truetype(Intuitive, 20)
@@ -39,9 +39,9 @@ class Display:
         self.ARTIST_FONT = ImageFont.truetype(HankenGroteskMedium, 18)
         self.EXPLICIT_FONT = ImageFont.truetype(HankenGroteskBold, 25)
         
-        self.SS_TIME_FONT = ImageFont.truetype(Intuitive, 20)
-        self.SS_DATE_FONT = ImageFont.truetype(Intuitive, 20)
-        self.SS_TEMP_FONT = ImageFont.truetype(Intuitive, 20)
+        self.SS_TIME_FONT = ImageFont.truetype(HankenGroteskBold, 25)
+        self.SS_DATE_FONT = ImageFont.truetype(HankenGroteskBold, 20)
+        self.SS_TEMP_FONT = ImageFont.truetype(HankenGroteskBold, 20)
         
         # Clean the display and show the splash screen once the class is initialised
         self.output.out("Cleaning display and showing splash-screen", f"{__class__.__name__}")
@@ -49,8 +49,7 @@ class Display:
         time.sleep(2)
         self.splash_screen()
 
-
-    def update_display_withSong(self,
+    def update_display(self,
                                 song_name,
                                 artist_name,
                                 isExplicit,
@@ -134,22 +133,25 @@ class Display:
     def create_screen_saver(self):
         from classes import weather
         
+        self.set_img(self.clean_area())
+        
         # Get the values for the screen-saver
         current_date, current_time = self.get_date_time("long")
-        temperature = weather.main()
+        temperature = weather.get_temperature()
         
         # stack the time, date and temerature ontop of eachother and center them on the screen
         time_w, time_h = self.SS_TIME_FONT.getsize(current_time)
-        time_x = (self.inky_display.HEIGHT / 2) - time_h
-        time_y = (self.inky_display.WIDTH - 5) - time_w
-        
         date_w, date_h = self.SS_DATE_FONT.getsize(current_date)
-        date_x = (self.inky_display.HEIGHT / 2)
-        date_y = (self.inky_display.WIDTH - 5) - date_w
-        
         temp_w, temp_h = self.SS_TEMP_FONT.getsize(temperature)
-        temp_x = (self.inky_display.HEIGHT / 2) + temp_h
-        temp_y = (self.inky_display.WIDTH - 5) - temp_w
+        
+        time_x = (self.inky_display.WIDTH - time_w) / 2
+        time_y = ((self.inky_display.HEIGHT - time_h) / 2) - time_h
+        
+        date_x = (self.inky_display.WIDTH - date_w) / 2
+        date_y = (self.inky_display.HEIGHT - date_h) / 2
+        
+        temp_x = (self.inky_display.WIDTH - temp_w) / 2
+        temp_y = ((self.inky_display.HEIGHT - temp_h) / 2) + temp_h
         
         # Draw
         self.draw.text((time_x, time_y), current_time, self.inky_display.BLACK, font=self.SS_TIME_FONT)
@@ -216,7 +218,7 @@ class Display:
         Fills the screen with white so the display is clean for the next time it's updated
 
         Returns:
-            Image: An Image object.
+            area_img (Image): An Image object.
         """
         area_img = self.img
         for x in range(self.inky_display.width):
@@ -230,7 +232,7 @@ class Display:
         Draws a line underneath the date and time.
 
         Returns:
-            Image: An Image object.
+            layout_img (Image): An Image object.
         """
         
         layout_img = self.get_img()
@@ -249,8 +251,6 @@ class Display:
             y_top (int): y axis value of the lowest item on the screen.
         """
         x_padding = 6
-        print(f"self.inky_display.HEIGHT = {self.inky_display.HEIGHT}")
-        print(f"y_top = {y_top}")
         
         if ((self.inky_display.HEIGHT - y_top + 5) < (self.inky_display.HEIGHT - 20)):
             y_top = self.inky_display.HEIGHT - 20
@@ -287,7 +287,7 @@ class Display:
         if (format == "short"):
             return datetime.datetime.now().strftime("%d/%m"), datetime.datetime.now().strftime("%I:%M")
         elif (format == "long"):
-            return datetime.datetime.now().strftime("%d/%m/Y"), datetime.datetime.now().strftime("%I:%M")
+            return datetime.datetime.now().strftime("%d/%m/%Y"), datetime.datetime.now().strftime("%I:%M")
 
     def draw_date_time(self):
         """
