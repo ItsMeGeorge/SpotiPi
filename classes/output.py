@@ -102,7 +102,7 @@ class Output:
         return self.isDebugging
 
 
-    def startup(self, version=0):
+    def startup(self, version):
         print("""
  ____                    __        ____           
 /\  _`\                 /\ \__  __/\  _`\   __    

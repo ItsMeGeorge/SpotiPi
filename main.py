@@ -84,9 +84,6 @@ class ProgramValues:
         self.explicit_song = None
         self.song_progress = None
         self.song_duration = None
-        
-        self.current_top_artist = str
-        self.top_artists_pointer = 0
 
     def parse_arguments(self):
         """
@@ -177,19 +174,6 @@ class ProgramValues:
 
     def get_song_artist(self):
         return self.song_artist
-
-    # --- User Top Artist --- #
-    def set_current_top_artist(self, artist):
-        self.current_top_artist = artist
-
-    def get_current_top_artist(self):
-        return self.current_top_artist
-
-    def set_top_artist_pointer(self, pointer):
-        self.top_artists_pointer = pointer
-
-    def get_top_artist_pointer(self):
-        return self.top_artists_pointer
 
     # --- Explicit --- #
     def set_explicit_song(self, explicit):
@@ -613,6 +597,7 @@ try:
         # Checks the connection to octoprint
         max_retries = 0
         while True:
+            print("Inside while")
             if (max_retries < 5):
                 if (not program_logic.connection_check()):
                     program_logic.program_values.output.out(f"Unable to connect to endpoint, retrying in 5s...", "connCheck")
@@ -626,8 +611,7 @@ try:
             else:
                 raise TimeoutError("Unable to connect to endpoint and reached max retries")
 
-        # Makes an api call to get the top artists and passess the list of artists to spotipy_values
-        program_logic.program_values.spotipy_values.set_top_artists(program_logic.program_values.spotipy_api.get_top_artists())
+        print("Out of While")
 
         # Clean the terminal and display SpotiPi text
         os.system('cls' if os.name == 'nt' else 'clear')

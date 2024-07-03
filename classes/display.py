@@ -94,8 +94,6 @@ class Display:
         # If OctoPrint is running draw its progress
         if (isPrinting):
             self.create_progressBar(print_progress, artist_name_y + artist_name_h)
-            
-        self.create_progressBar(60, artist_name_y + artist_name_h)
 
         self.inky_display.set_image(self.img)
         self.inky_display.show()
