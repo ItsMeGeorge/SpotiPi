@@ -458,10 +458,17 @@ class ProgramLogic:
                     print("Spotipy checking in with watchdog")
                     self.program_values.output.debug("Spotify Checking values", f"Spotipy Loop")
 
-                    spotify_data = self.program_values.spotipy_api.get_currently_playing()
-                    self.program_values.spotipy_values.set_spotify_status(spotify_data[0])
-                    
-                    print(f"Spotify data:\n{spotify_data}")
+                    try:
+                        print("Trying to get spotify data..")
+                        
+                        spotify_data = self.program_values.spotipy_api.get_currently_playing()
+                        self.program_values.spotipy_values.set_spotify_status(spotify_data[0])
+                    except Exception as Ex:
+                        print("Error!")
+                        print(Ex)
+                    else:
+                        print("Sucsess!")
+                        print(f"Spotify data:\n{spotify_data}")
 
                     self.program_values.output.debug(f"Spotify Status: {spotify_data[0]}", "Spotify Loop")
 
@@ -564,6 +571,7 @@ class ProgramLogic:
                 if (self.program_values.spotipy_values.get_spotify_status() != "stopped"):
                     print("Playing")
                     print(self.program_values.spotipy_values.get_song_duration())
+
                     if ((values_changed or 
                         self.program_values.refresh_timer.get_seconds_waited() >= self.program_values.refresh_timer.get_max_wait()) and 
                         self.program_values.spotipy_values.get_song_progress() < (self.program_values.spotipy_values.get_song_duration() - 30)):
