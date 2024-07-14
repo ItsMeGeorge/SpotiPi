@@ -9,7 +9,7 @@ import threading
 import requests
 
 # Class Imports
-from classes import refresh_timer, octoprint, spotipy, watchdog, output
+from classes import refresh_timer, octoprint, spotipi, watchdog, output
 
 class ProgramValues:
     def __init__(self):
@@ -58,8 +58,8 @@ class ProgramValues:
             self.refresh_timer = refresh_timer.RefreshTimer(self.output, self.watchdog)
             
             # Initialise spotipy classes
-            self.spotipy_values = spotipy.SpotipyValues()
-            self.spotipy_api = spotipy.SpotipyAPI()
+            self.spotipy_values = spotipi.SpotipyValues()
+            self.spotipy_api = spotipi.SpotipyAPI()
 
             # Initialise octoprint classes
             self.octo_print_values = octoprint.OctoPrintValues()
