@@ -463,6 +463,11 @@ class ProgramLogic:
                         
                         spotify_data = self.program_values.spotipy_api.get_currently_playing()
                         self.program_values.spotipy_values.set_spotify_status(spotify_data[0])
+
+                        print("Spotify Data:")
+                        print(spotify_data)
+                        print()
+                        
                     except Exception as Ex:
                         print("Error!")
                         print(Ex)
