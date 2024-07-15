@@ -561,31 +561,23 @@ class ProgramLogic:
         
         # Enter loop here to begin running the display
         while(self.program_values.get_active_session() and not self.program_values.watchdog.exit_flag.is_set()):
-            print("Start of main loop")
             self.program_values.watchdog.check_in("ProgramLogic")
 
             # is_refresh_ready() returns true if seconds waited is greater than 15
             if (self.program_values.refresh_timer.is_refresh_ready()):
-                print("Ready")
                 # Set value_changed to false ready for the next loop
                 values_changed = False
 
                 # If the current song_id in Program_Values is not the same as the current id Spotipy_Values
                 if (self.program_values.get_song_id() != self.program_values.spotipy_values.get_song_id()):
-                    print("New song")
                     #updated valuess
                     self.program_values.update_spotify_values()
-                    print("Values updated")
 
                     # Marks that the values have been changed
                     values_changed = True
-                else:
-                    print("Same song")
-                    
 
                 # If the values have been changed or the seconds waited is greater than max wait time then refresh the screen
                 if (self.program_values.spotipy_values.get_spotify_status() != "stopped"):
-                    print("Playing")
                     print(self.program_values.spotipy_values.get_song_duration())
 
                     if (self.spotiPi_thread.is_alive()):

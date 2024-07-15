@@ -137,8 +137,12 @@ class SpotipyAPI:
                 progress: How far through the song the user is (in miliseconds)
                 duration: How long the song is (in miliseconds)
         """
+        print("Getting currently playing")
+
         spotify_data = self.get_spotify_data()
         spotify_data = spotify_data.current_user_playing_track()
+
+        print("Got spotify data")
 
         if (type(spotify_data) is dict):
             # Get song name
