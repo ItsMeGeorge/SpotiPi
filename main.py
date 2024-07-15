@@ -588,6 +588,12 @@ class ProgramLogic:
                     print("Playing")
                     print(self.program_values.spotipy_values.get_song_duration())
 
+                    if (self.spotiPi_thread.is_alive()):
+                        print("Spoifpy thread is alive")
+                    else:
+                        print("Spoifpy thread is NOT alive")
+                    
+
                     if ((values_changed or 
                         self.program_values.refresh_timer.get_seconds_waited() >= self.program_values.refresh_timer.get_max_wait()) and 
                         self.program_values.spotipy_values.get_song_progress() < (self.program_values.spotipy_values.get_song_duration() - 30)):
